@@ -763,7 +763,7 @@
   display: grid;
   grid-template-columns: 1.1fr 1fr;
   gap: 18px;
-  align-items: end;
+  
 }
 
 @media (max-width: 980px) {
@@ -796,6 +796,7 @@
 
 .contactForm {
   padding: 0;
+  margin-top: -60px;
 }
 
 .contactFormInner {
@@ -812,6 +813,11 @@
   .formRow {
     grid-template-columns: 1fr;
   }
+
+  .contactForm {
+  
+  margin-top: 0px;
+}
 }
 
 .label {
@@ -841,6 +847,7 @@
 
 .textarea {
   resize: vertical;
+  min-height: 150px;
 }
 
 .formActions {
@@ -848,6 +855,44 @@
   gap: 12px;
   flex-wrap: wrap;
   margin-top: 14px;
+}
+
+.formStatus {
+  min-height: 24px;
+  margin-top: 14px;
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.formStatus.isError {
+  color: #f9a8a8;
+}
+
+.formStatus.isSuccess {
+  color: #86efac;
+}
+
+.formStatus.isLoading {
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.btn:disabled {
+  opacity: 0.7;
+  cursor: wait;
+  transform: none;
+  box-shadow: none;
+}
+
+.srOnlyInput {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
 
 /* Footer */

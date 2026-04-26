@@ -6,6 +6,8 @@ function ProjectCard({ project, index }) {
     <a
       className="projectCard"
       href={project.href}
+      target="_blank"
+      rel="noreferrer"
       data-reveal
       data-project-card
       data-index={index}
@@ -158,4 +160,3 @@ export default function ProjectsGrid() {
     </div>
   )
 }
-

@@ -12,6 +12,7 @@ dist
 dist.zip
 dist-ssr
 *.local
+public/contact-config.php
 
 # Editor directories and files
 .vscode/*

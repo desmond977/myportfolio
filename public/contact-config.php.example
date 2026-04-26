@@ -1,0 +1,13 @@
+<?php
+
+return [
+    'site_name' => 'Azubuike Desmond Portfolio',
+    'to_email' => 'hello@azubuikedesmond.com',
+    'from_email' => 'hello@azubuikedesmond.com',
+    'from_name' => 'Website Contact',
+    'smtp_host' => 'smtp.hostinger.com',
+    'smtp_port' => 465,
+    'smtp_username' => 'hello@azubuikedesmond.com',
+    'smtp_password' => 'replace-with-your-hostinger-email-password',
+    'smtp_encryption' => 'ssl',
+];

@@ -1,115 +1,163 @@
-import { useMemo, useState } from 'react'
+import { useState } from 'react'
 
-function encodeMailto({ to, subject, body }) {
-  const params = new URLSearchParams()
-  if (subject) params.set('subject', subject)
-  if (body) params.set('body', body)
-  return `mailto:${encodeURIComponent(to)}?${params.toString()}`
+const initialForm = {
+  name: '',
+  email: '',
+  subject: '',
+  message: '',
+  company: '',
+}
+
+const initialStatus = {
+  type: 'idle',
+  message: '',
 }
 
 export default function Contact() {
-  const [status, setStatus] = useState('idle')
-  const [form, setForm] = useState({ name: '', email: '', message: '' })
+  const [form, setForm] = useState(initialForm)
+  const [status, setStatus] = useState(initialStatus)
+  const [isSubmitting, setIsSubmitting] = useState(false)
 
-  const mailto = useMemo(() => {
-    const body = [
-      `Name: ${form.name || '-'}`,
-      `Email: ${form.email || '-'}`,
-      '',
-      form.message || '',
-    ].join('\n')
-    return encodeMailto({
-      to: 'Azubuikedesmond97@gmail.com',
-      subject: 'Project inquiry',
-      body,
-    })
-  }, [form])
+  const handleChange = (event) => {
+    const { name, value } = event.target
+    setForm((current) => ({ ...current, [name]: value }))
+  }
+
+  const handleSubmit = async (event) => {
+    event.preventDefault()
+
+    if (isSubmitting) return
+
+    setIsSubmitting(true)
+    setStatus({ type: 'loading', message: 'Sending your message...' })
+
+    try {
+      const response = await fetch('/contact.php', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(form),
+      })
+
+      const data = await response.json().catch(() => ({}))
+
+      if (!response.ok) {
+        throw new Error(data.message || 'Your message could not be sent right now.')
+      }
+
+      setForm(initialForm)
+      setStatus({
+        type: 'success',
+        message: data.message || 'Message sent. I will get back to you shortly.',
+      })
+    } catch (error) {
+      setStatus({
+        type: 'error',
+        message: error.message || 'Something went wrong while sending your message.',
+      })
+    } finally {
+      setIsSubmitting(false)
+    }
+  }
 
   return (
     <div className="contactGrid">
-      <div className="contactLeft" data-reveal>
+      <div>
         <p className="lead">
-          Tell me what you’re building, your timeline, and the feeling you want
-          the experience to evoke.
+          Tell me what you’re building, your timeline, and the feeling you want the experience to evoke.
         </p>
+
         <div className="contactList">
-          <a className="contactLink" href="tel:+2348104889570">
+          <a className="contactLink" href="mailto:hello@azubuikedesmond.com">
+            hello@azubuikedesmond.com
+          </a>
+          <a className="contactLink" href="mailto:azubuikedesmond97@gmail.com" target="_blank" rel="noreferrer">
+            azubuikedesmond97@gmail.com
+          </a>
+          <a className="PhoneNumber" href="tel:08104889570" target="_blank" rel="noreferrer">
             08104889570
           </a>
-          <a className="contactLink" href={mailto}>
-            Azubuikedesmond97@gmail.com
-          </a>
-          <div className="muted">Remote-first · Worldwide</div>
-          <div className="contactSocial">
-            <a className="link" href="#" aria-label="GitHub">
-              GitHub
-            </a>
-            <a className="link" href="#" aria-label="LinkedIn">
-              LinkedIn
-            </a>
-            <a className="link" href="#" aria-label="X">
-              X
-            </a>
-          </div>
         </div>
       </div>
 
-      <form
-        className="contactForm glassCard"
-        data-reveal
-        onSubmit={(e) => {
-          e.preventDefault()
-          setStatus('opening')
-          window.location.href = mailto
-          window.setTimeout(() => setStatus('idle'), 800)
-        }}
-      >
-        <div className="contactFormInner">
+      <div className="glassCard contactForm">
+        <form className="contactFormInner" onSubmit={handleSubmit}>
           <div className="formRow">
             <label className="label">
               Name
               <input
                 className="input"
+                type="text"
+                name="name"
                 value={form.name}
-                onChange={(e) => setForm((f) => ({ ...f, name: e.target.value }))}
-                placeholder="Your name"
+                onChange={handleChange}
                 autoComplete="name"
+                required
               />
             </label>
+
             <label className="label">
               Email
               <input
                 className="input"
+                type="email"
+                name="email"
                 value={form.email}
-                onChange={(e) => setForm((f) => ({ ...f, email: e.target.value }))}
-                placeholder="you@domain.com"
+                onChange={handleChange}
                 autoComplete="email"
-                inputMode="email"
+                required
               />
             </label>
           </div>
+
+          <label className="label">
+            Subject
+            <input
+              className="input"
+              type="text"
+              name="subject"
+              value={form.subject}
+              onChange={handleChange}
+              autoComplete="off"
+              required
+            />
+          </label>
+
           <label className="label">
             Message
             <textarea
               className="input textarea"
+              name="message"
               value={form.message}
-              onChange={(e) => setForm((f) => ({ ...f, message: e.target.value }))}
-              placeholder="What are you building?"
-              rows={5}
+              onChange={handleChange}
+              rows="6"
+              required
             />
           </label>
 
-          <div className="formActions">
-            <button className="btn btnPrimary" type="submit">
-              {status === 'opening' ? 'Opening email…' : 'Send message'}
-            </button>
-            <a className="btn btnGhost" href={mailto}>
-              Copy email draft
-            </a>
+          <input
+            type="text"
+            name="company"
+            value={form.company}
+            onChange={handleChange}
+            autoComplete="off"
+            tabIndex="-1"
+            aria-hidden="true"
+            className="srOnlyInput"
+          />
+
+          <div className={`formStatus ${status.type !== 'idle' ? `is${status.type[0].toUpperCase()}${status.type.slice(1)}` : ''}`}>
+            {status.message}
           </div>
-        </div>
-      </form>
+
+          <div className="formActions">
+            <button className="btn btnPrimary" type="submit" disabled={isSubmitting}>
+              {isSubmitting ? 'Sending...' : 'Send Message'}
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
   )
 }
-

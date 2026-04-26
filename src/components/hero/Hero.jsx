@@ -17,6 +17,20 @@ export default function Hero() {
     return window.matchMedia?.('(prefers-reduced-motion: reduce)')?.matches
   }, [])
 
+  const scrollToSection = (event, id) => {
+    event.preventDefault()
+
+    const target = document.getElementById(id)
+    if (!target) return
+
+    target.scrollIntoView({
+      behavior: reduceMotion ? 'auto' : 'smooth',
+      block: 'start',
+    })
+
+    window.history.replaceState(null, '', `#${id}`)
+  }
+
   useEffect(() => {
     if (reduceMotion) return
 
@@ -107,13 +121,13 @@ export default function Hero() {
               <span className="brandText">Azubuike Desmond</span>
             </div>
             <nav className="nav">
-              <a className="navLink" href="#about">
+              <a className="navLink" href="#about" onClick={(event) => scrollToSection(event, 'about')}>
                 About
               </a>
-              <a className="navLink" href="#projects">
+              <a className="navLink" href="#projects" onClick={(event) => scrollToSection(event, 'projects')}>
                 Projects
               </a>
-              <a className="navLink" href="#contact">
+              <a className="navLink" href="#contact" onClick={(event) => scrollToSection(event, 'contact')}>
                 Contact
               </a>
             </nav>
@@ -134,10 +148,10 @@ export default function Hero() {
                 and boost conversions through social media marketing, and high-performing websites.
               </p>
               <div className="heroActions" data-hero-reveal>
-                <a className="btn btnPrimary" href="#projects">
+                <a className="btn btnPrimary" href="#projects" onClick={(event) => scrollToSection(event, 'projects')}>
                 View My Work
                 </a>
-                <a className="btn btnGhost" href="#contact">
+                <a className="btn btnGhost" href="#contact" onClick={(event) => scrollToSection(event, 'contact')}>
                 Hire Me
                 </a>
               </div>
@@ -168,4 +182,3 @@ export default function Hero() {
     </header>
   )
 }
-

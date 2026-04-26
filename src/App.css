@@ -373,6 +373,7 @@
 
 .section {
   padding: 92px 0;
+  scroll-margin-top: 88px;
 }
 
 @media (max-width: 900px) {

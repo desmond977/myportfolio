@@ -65,18 +65,40 @@ export default function Contact() {
     <div className="contactGrid">
       <div>
         <p className="lead">
-          Tell me what you’re building, your timeline, and the feeling you want the experience to evoke.
+          Available for Remote and Hybrid work worldwide. Tell me what you are
+          building, your timeline, and the outcome you want it to drive.
         </p>
 
         <div className="contactList">
           <a className="contactLink" href="mailto:hello@azubuikedesmond.com">
             hello@azubuikedesmond.com
           </a>
-          <a className="contactLink" href="mailto:azubuikedesmond97@gmail.com" target="_blank" rel="noreferrer">
+          <a className="contactLink" href="mailto:azubuikedesmond97@gmail.com">
             azubuikedesmond97@gmail.com
           </a>
-          <a className="PhoneNumber" href="tel:08104889570" target="_blank" rel="noreferrer">
-            08104889570
+          <a
+            className="contactLink"
+            href="https://wa.me/2348104889570"
+            target="_blank"
+            rel="noreferrer"
+          >
+            WhatsApp: +234 810 488 9570
+          </a>
+          <a
+            className="contactLink"
+            href="https://github.com/desmond977"
+            target="_blank"
+            rel="noreferrer"
+          >
+            GitHub: github.com/desmond977
+          </a>
+          <a
+            className="contactLink"
+            href="https://www.linkedin.com/in/azubuike-desmond-linkd/"
+            target="_blank"
+            rel="noreferrer"
+          >
+            LinkedIn: azubuike-desmond-linkd
           </a>
         </div>
       </div>
@@ -147,7 +169,9 @@ export default function Contact() {
             className="srOnlyInput"
           />
 
-          <div className={`formStatus ${status.type !== 'idle' ? `is${status.type[0].toUpperCase()}${status.type.slice(1)}` : ''}`}>
+          <div
+            className={`formStatus ${status.type !== 'idle' ? `is${status.type[0].toUpperCase()}${status.type.slice(1)}` : ''}`}
+          >
             {status.message}
           </div>
 

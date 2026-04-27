@@ -17,15 +17,16 @@ export default function Hero() {
     return window.matchMedia?.('(prefers-reduced-motion: reduce)')?.matches
   }, [])
 
-  const scrollToSection = (event, id) => {
-    event.preventDefault()
-
+  const scrollToSection = (id) => {
     const target = document.getElementById(id)
     if (!target) return
 
-    target.scrollIntoView({
+    const navOffset = window.innerWidth <= 980 ? 96 : 88
+    const top = target.getBoundingClientRect().top + window.scrollY - navOffset
+
+    window.scrollTo({
+      top: Math.max(0, top),
       behavior: reduceMotion ? 'auto' : 'smooth',
-      block: 'start',
     })
 
     window.history.replaceState(null, '', `#${id}`)
@@ -46,7 +47,6 @@ export default function Hero() {
 
     const io = new IntersectionObserver(
       ([entry]) => {
-        // pause 3D if hero mostly off-screen
         setIsInView(entry.isIntersecting && entry.intersectionRatio >= 0.15)
       },
       { threshold: [0, 0.15, 0.3] },
@@ -121,22 +121,22 @@ export default function Hero() {
               <span className="brandText">Azubuike Desmond</span>
             </div>
             <nav className="nav">
-              <a className="navLink" href="#about" onClick={(event) => scrollToSection(event, 'about')}>
+              <button className="navLink" type="button" onClick={() => scrollToSection('about')}>
                 About
-              </a>
-              <a className="navLink" href="#projects" onClick={(event) => scrollToSection(event, 'projects')}>
+              </button>
+              <button className="navLink" type="button" onClick={() => scrollToSection('projects')}>
                 Projects
-              </a>
-              <a className="navLink" href="#contact" onClick={(event) => scrollToSection(event, 'contact')}>
+              </button>
+              <button className="navLink" type="button" onClick={() => scrollToSection('contact')}>
                 Contact
-              </a>
+              </button>
             </nav>
           </div>
 
           <div className="heroGrid">
             <div className="heroContent">
               <div className="heroEyebrow" data-hero-reveal>
-              Digital Experiences That Drive Results
+                Digital Experiences That Drive Results
               </div>
               <h1 className="heroTitle" data-hero-reveal>
                 Web Developer,
@@ -144,16 +144,17 @@ export default function Hero() {
                 Digital Marketer.
               </h1>
               <p className="heroSubtitle" data-hero-reveal>
-                I’m Azubuike Desmond — I help businesses increase visibility, generate leads, 
-                and boost conversions through social media marketing, and high-performing websites.
+                I&apos;m Azubuike Desmond. I help businesses increase visibility, generate
+                leads, and boost conversions through social media marketing and
+                high-performing websites.
               </p>
               <div className="heroActions" data-hero-reveal>
-                <a className="btn btnPrimary" href="#projects" onClick={(event) => scrollToSection(event, 'projects')}>
-                View My Work
-                </a>
-                <a className="btn btnGhost" href="#contact" onClick={(event) => scrollToSection(event, 'contact')}>
-                Hire Me
-                </a>
+                <button className="btn btnPrimary" type="button" onClick={() => scrollToSection('projects')}>
+                  View My Work
+                </button>
+                <button className="btn btnGhost" type="button" onClick={() => scrollToSection('contact')}>
+                  Hire Me
+                </button>
               </div>
             </div>
 

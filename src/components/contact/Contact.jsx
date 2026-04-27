@@ -76,13 +76,16 @@ export default function Contact() {
           <a className="contactLink" href="mailto:azubuikedesmond97@gmail.com">
             azubuikedesmond97@gmail.com
           </a>
+        </div>
+
+        <div className="contactSocial">
           <a
             className="contactLink"
             href="https://wa.me/2348104889570"
             target="_blank"
             rel="noreferrer"
           >
-            WhatsApp: +234 810 488 9570
+            WhatsApp
           </a>
           <a
             className="contactLink"
@@ -90,7 +93,7 @@ export default function Contact() {
             target="_blank"
             rel="noreferrer"
           >
-            GitHub: github.com/desmond977
+            GitHub
           </a>
           <a
             className="contactLink"
@@ -98,7 +101,7 @@ export default function Contact() {
             target="_blank"
             rel="noreferrer"
           >
-            LinkedIn: azubuike-desmond-linkd
+            LinkedIn
           </a>
         </div>
       </div>
